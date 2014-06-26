@@ -5,8 +5,8 @@ import java.util.HashSet;
 
 import com.mbserver.api.game.Player;
 
-@SuppressWarnings( "deprecation" )// For the date objects because java did not give me a proper alternative
-
+@SuppressWarnings( "deprecation" )
+// For the date objects because java did not give me a proper alternative
 /**
  * General statistic data class
  * @author incapable
@@ -23,21 +23,24 @@ public class Stats {
      */
     public Stats() {
         today = new Date().getDay();
+        players = new HashSet< String >();
     }
 
     /**
      * Adds a player count if it's valid
-     * @param player The player to add to the count
+     * 
+     * @param player
+     *            The player to add to the count
      */
     public void plusPlayer( Player player ) {
-        //Check if the current count is for today
+        // Check if the current count is for today
         if ( new Date().getDay() == today ) {
             if ( !players.contains( player.getLoginName() ) ) {
                 playersToday++;
                 players.add( player.getLoginName() );
             }
         } else {
-            //Move counters
+            // Move counters
             playersYesterday = playersToday;
             playersToday = 1;
             players.clear();
@@ -46,6 +49,7 @@ public class Stats {
 
     /**
      * Gets the player count for today
+     * 
      * @return The player count
      */
     public int getPlayersToday() {
@@ -54,6 +58,7 @@ public class Stats {
 
     /**
      * Gets the player count for yesterday
+     * 
      * @return The player count for yesterday
      */
     public int getPlayersYesterday() {
