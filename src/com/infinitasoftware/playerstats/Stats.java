@@ -14,7 +14,6 @@ import com.mbserver.api.game.Player;
  */
 public class Stats {
     private int               today;
-    private int               playersToday;
     private int               playersYesterday;
     private HashSet< String > players;
 
@@ -34,16 +33,15 @@ public class Stats {
      */
     public void plusPlayer( Player player ) {
         // Check if the current count is for today
-        if ( new Date().getDay() == today ) {
-            if ( !players.contains( player.getLoginName() ) ) {
-                playersToday++;
-                players.add( player.getLoginName() );
-            }
-        } else {
-            // Move counters
-            playersYesterday = playersToday;
-            playersToday = 1;
+        if ( new Date().getDay() != today ) {
+            //reset counters
+            playersYesterday = players.size();
             players.clear();
+            players.add( player.getLoginName() );
+        }
+        
+        if ( !players.contains( player.getLoginName() ) ) {
+            players.add( player.getLoginName() );
         }
     }
 
@@ -53,7 +51,7 @@ public class Stats {
      * @return The player count
      */
     public int getPlayersToday() {
-        return this.playersToday;
+        return this.players.size();
     }
 
     /**
