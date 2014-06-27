@@ -8,6 +8,7 @@ import com.mbserver.api.events.EventHandler;
 import com.mbserver.api.events.Listener;
 import com.mbserver.api.events.PostPlayerLoginEvent;
 import com.mbserver.api.events.WorldSaveEvent;
+import com.mbserver.api.events.RunMode;
 
 @Manifest( name = "PlayerStats", config = Stats.class )// Using config storage because it's easy and we don't need no config =D
 
@@ -45,7 +46,7 @@ public class PlayerStats extends MBServerPlugin {
 
         // Listen for new player logins
         this.getPluginManager().registerEventHandler( new Listener() {
-            @EventHandler
+            @EventHandler(concurrency=RunMode.THREADED)
             public void onLogin( PostPlayerLoginEvent event ) {
                 stats.plusPlayer( event.getPlayer() );
             }
@@ -53,7 +54,7 @@ public class PlayerStats extends MBServerPlugin {
 
         // For periodical saving
         this.getPluginManager().registerEventHandler( new Listener() {
-            @EventHandler
+            @EventHandler(concurrency=RunMode.THREADED)
             public void onWorldSave( WorldSaveEvent event ) {
                 if ( event.getWorld() == event.getServer().getMainWorld() )
                     PlayerStats.this.saveConfig();
