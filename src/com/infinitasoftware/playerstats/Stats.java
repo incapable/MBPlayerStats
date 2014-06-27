@@ -38,6 +38,7 @@ public class Stats {
             playersYesterday = players.size();
             players.clear();
             players.add( player.getLoginName() );
+            today = new Date().getDay();
         }
         
         if ( !players.contains( player.getLoginName() ) ) {
